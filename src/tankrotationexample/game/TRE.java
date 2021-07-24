@@ -50,7 +50,7 @@ public class TRE extends JPanel implements Runnable {
                  * simulate an end game event
                  * we will do this with by ending the game when drawn 2000 frames have been drawn
                  */
-                if(this.tick > 2000){
+                if(this.tick > 144 * 8){
                     this.lf.setFrame("end");
                     return;
                 }
