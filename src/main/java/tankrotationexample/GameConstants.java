@@ -1,6 +1,9 @@
 package tankrotationexample;
 
 public class GameConstants {
+    public static final int GAME_WORLD_WIDTH = 2010;
+    public static final int GAME_WORLD_HEIGHT = 2010;
+
     public static final int GAME_SCREEN_WIDTH = 1024;
     public static final int GAME_SCREEN_HEIGHT = 768;
 

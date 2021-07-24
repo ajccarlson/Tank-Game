@@ -12,6 +12,7 @@ import tankrotationexample.Launcher;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
@@ -50,7 +51,7 @@ public class TRE extends JPanel implements Runnable {
                  * simulate an end game event
                  * we will do this with by ending the game when drawn 2000 frames have been drawn
                  */
-                if(this.tick > 144 * 8){
+                if(this.tick > 2000){
                     this.lf.setFrame("end");
                     return;
                 }
@@ -77,8 +78,8 @@ public class TRE extends JPanel implements Runnable {
      * initial state as well.
      */
     public void gameInitialize() {
-        this.world = new BufferedImage(GameConstants.GAME_SCREEN_WIDTH,
-                                       GameConstants.GAME_SCREEN_HEIGHT,
+        this.world = new BufferedImage(GameConstants.GAME_WORLD_WIDTH,
+                                       GameConstants.GAME_WORLD_HEIGHT,
                                        BufferedImage.TYPE_INT_RGB);
 
         BufferedImage t1img = null;
@@ -108,10 +109,15 @@ public class TRE extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
         Graphics2D buffer = world.createGraphics();
         buffer.setColor(Color.BLACK);
-        buffer.fillRect(0,0,GameConstants.GAME_SCREEN_WIDTH,GameConstants.GAME_SCREEN_HEIGHT);
+        buffer.fillRect(0,0,GameConstants.GAME_WORLD_WIDTH,GameConstants.GAME_WORLD_HEIGHT);
         this.t1.drawImage(buffer);
         this.t2.drawImage(buffer);
-        g2.drawImage(world,0,0,null);
+        BufferedImage leftHalf = world.getSubimage(0, 0, GameConstants.GAME_SCREEN_WIDTH / 2, GameConstants.GAME_SCREEN_HEIGHT);
+        BufferedImage rightHalf = world.getSubimage(this.t2.getX(), this.t2.getY(), GameConstants.GAME_SCREEN_WIDTH / 2, GameConstants.GAME_SCREEN_HEIGHT);
+        BufferedImage mm = world.getSubimage(0, 0, GameConstants.GAME_WORLD_WIDTH, GameConstants.GAME_WORLD_HEIGHT);
+        g2.drawImage(leftHalf,0,0,null);
+        g2.drawImage(rightHalf,GameConstants.GAME_SCREEN_WIDTH / 2 + 4,0,null);
+        g2.scale(.10, .10);
+        g2.drawImage(mm, 200, 200, null);
     }
-
 }
