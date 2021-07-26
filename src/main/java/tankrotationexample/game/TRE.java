@@ -14,7 +14,10 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Objects;
 
 
@@ -31,6 +34,7 @@ public class TRE extends JPanel implements Runnable {
     private Tank t2;
     private Launcher lf;
     private long tick = 0;
+    ArrayList<Wall> walls;
 
     public TRE(Launcher lf){
         this.lf = lf;
@@ -83,19 +87,51 @@ public class TRE extends JPanel implements Runnable {
                                        BufferedImage.TYPE_INT_RGB);
 
         BufferedImage t1img = null;
+        BufferedImage t2img = null;
+        BufferedImage breakWall = null;
+        BufferedImage unBreakWall = null;
+        walls = new ArrayList<>();
         try {
             /*
              * note class loaders read files from the out folder (build folder in Netbeans) and not the
              * current working directory.
              */
             t1img = read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("tank1.png")));
+            t2img = read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("tank2.png")));
+            breakWall = read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("break.gif")));
+            unBreakWall = read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("unBreak.gif")));
+            InputStreamReader isr = new InputStreamReader(TRE.class.getClassLoader().getResourceAsStream("maps/map1"));
+            BufferedReader mapReader = new BufferedReader(isr);
+
+            String row = mapReader.readLine();
+            if (row == null) {
+                throw new IOException("no data in file");
+            }
+            String[] mapInfo = row.split("\t");
+            int numCols = Integer.parseInt(mapInfo[0]);
+            int numRows = Integer.parseInt(mapInfo[1]);
+
+            for (int curRow = 0; curRow < numRows; curRow++) {
+                row = mapReader.readLine();
+                mapInfo = row.split("\t");
+                for (int curCol = 0; curCol < numCols; curCol++) {
+                    switch (mapInfo[curCol]) {
+                        case "2":
+                            this.walls.add(new BreakWall(curCol * 30, curRow * 30, breakWall));
+                            break;
+                        case "3":
+                        case "9":
+                            this.walls.add(new UnBreakWall(curCol * 30, curRow * 30, unBreakWall));
+                    }
+                }
+            }
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
         }
 
         t1 = new Tank(300, 300, 0, 0, 0, t1img);
-        t2 = new Tank(500, 500, 0, 0, 0, t1img);
+        t2 = new Tank(500, 500, 0, 0, 0, t2img);
         TankControl tc1 = new TankControl(t1, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
         TankControl tc2 = new TankControl(t2, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
         this.lf.getJf().addKeyListener(tc1);
@@ -110,6 +146,7 @@ public class TRE extends JPanel implements Runnable {
         Graphics2D buffer = world.createGraphics();
         buffer.setColor(Color.BLACK);
         buffer.fillRect(0,0,GameConstants.GAME_WORLD_WIDTH,GameConstants.GAME_WORLD_HEIGHT);
+        this.walls.forEach(wall -> wall.drawImage(buffer));
         this.t1.drawImage(buffer);
         this.t2.drawImage(buffer);
         BufferedImage leftHalf = world.getSubimage(0, 0, GameConstants.GAME_SCREEN_WIDTH / 2, GameConstants.GAME_SCREEN_HEIGHT);

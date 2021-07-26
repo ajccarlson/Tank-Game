@@ -1,7 +1,10 @@
-tankrotationexample\game\Tank.class
 tankrotationexample\menus\EndGamePanel.class
 tankrotationexample\Launcher.class
+tankrotationexample\game\TRE.class
+tankrotationexample\game\UnBreakWall.class
+tankrotationexample\menus\StartMenuPanel.class
+tankrotationexample\game\BreakWall.class
+tankrotationexample\game\Tank.class
+tankrotationexample\game\Wall.class
 tankrotationexample\GameConstants.class
 tankrotationexample\game\TankControl.class
-tankrotationexample\game\TRE.class
-tankrotationexample\menus\StartMenuPanel.class
