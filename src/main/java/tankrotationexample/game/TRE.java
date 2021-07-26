@@ -50,6 +50,9 @@ public class TRE extends JPanel implements Runnable {
                 this.t1.update(); // update tank
                 this.t2.update(); // update tank
                 this.repaint();   // redraw game
+               if (this.t1.getHitBox().intersects(this.t2.getHitBox())) {
+                   System.out.println("Tanks have collided");
+               }
                 Thread.sleep(1000 / 144); //sleep for a few milliseconds
                 //System.out.println(t1);
                 /*
@@ -73,8 +76,10 @@ public class TRE extends JPanel implements Runnable {
         this.tick = 0;
         this.t1.setX(300);
         this.t1.setY(300);
-        this.t2.setX(500);
-        this.t2.setY(500);
+        this.t1.setAngle(0);
+        this.t2.setX(700);
+        this.t2.setY(700);
+        this.t2.setAngle(180);
     }
 
 
@@ -138,7 +143,7 @@ public class TRE extends JPanel implements Runnable {
         TankControl tc2 = new TankControl(t2, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
         this.lf.getJf().addKeyListener(tc1);
         this.lf.getJf().addKeyListener(tc2);
-        this.setBackground(Color.BLACK);
+        //this.setBackground(Color.BLACK);
     }
 
 

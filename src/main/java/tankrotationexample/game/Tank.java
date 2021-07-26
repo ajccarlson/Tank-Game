@@ -50,11 +50,19 @@ public class Tank{
 
     void setX(int x){ this.x = x; }
 
-    void setY(int y) { this. y = y;}
+    void setY(int y) { this.y = y;}
+
+    void setAngle(int angle) { this.angle = angle; }
 
     public int getX() { return x; }
 
     public int getY() { return y; }
+
+    public int getAngle() { return angle; }
+
+    public Rectangle getHitBox() {
+        return hitBox.getBounds();
+    }
 
     void toggleUpPressed() {
         this.UpPressed = true;
@@ -128,6 +136,7 @@ public class Tank{
         x -= vx;
         y -= vy;
         checkBorder();
+        this.hitBox.setLocation(x, y);
     }
 
     private void moveForwards() {
@@ -136,6 +145,7 @@ public class Tank{
         x += vx;
         y += vy;
         checkBorder();
+        this.hitBox.setLocation(x, y);
     }
 
 
@@ -168,6 +178,8 @@ public class Tank{
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(this.img, rotation, null);
         this.ammo.forEach(bullet -> bullet.drawImage(g));
+        g2d.setColor(Color.CYAN);
+        g2d.drawRect(x, y, this.img.getWidth(), this.img.getHeight());
     }
 
 
