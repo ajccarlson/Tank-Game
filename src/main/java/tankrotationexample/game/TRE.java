@@ -32,9 +32,10 @@ public class TRE extends JPanel implements Runnable {
     private BufferedImage world;
     private Tank t1;
     private Tank t2;
-    private Launcher lf;
-    private long tick = 0;
+    public static BufferedImage bulletImage;
     ArrayList<Wall> walls;
+    private Launcher lf;
+    static long tick = 0;
 
     public TRE(Launcher lf){
         this.lf = lf;
@@ -50,7 +51,7 @@ public class TRE extends JPanel implements Runnable {
                 this.t2.update(); // update tank
                 this.repaint();   // redraw game
                 Thread.sleep(1000 / 144); //sleep for a few milliseconds
-                System.out.println(t1);
+                //System.out.println(t1);
                 /*
                  * simulate an end game event
                  * we will do this with by ending the game when drawn 2000 frames have been drawn
@@ -98,6 +99,7 @@ public class TRE extends JPanel implements Runnable {
              */
             t1img = read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("tank1.png")));
             t2img = read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("tank2.png")));
+            TRE.bulletImage = read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("bullet.gif")));
             breakWall = read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("break.gif")));
             unBreakWall = read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("unBreak.gif")));
             InputStreamReader isr = new InputStreamReader(TRE.class.getClassLoader().getResourceAsStream("maps/map1"));
