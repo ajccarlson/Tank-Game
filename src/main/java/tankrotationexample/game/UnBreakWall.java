@@ -19,7 +19,7 @@ public class UnBreakWall extends Wall {
     public void checkCollision(CollidableObject c) {}
 
     @Override
-    public Rectangle getHitBox() { return hitBox; }
+    public Rectangle getHitBox() { return this.hitBox; }
 
     @Override
     public boolean hasCollided() { return false; }

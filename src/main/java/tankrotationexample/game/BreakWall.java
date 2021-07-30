@@ -27,7 +27,7 @@ public class BreakWall extends Wall {
     }
 
     @Override
-    public Rectangle getHitBox() { return hitBox; }
+    public Rectangle getHitBox() { return this.hitBox; }
 
     @Override
     public boolean hasCollided() { return collided; }
