@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
-public class Bullet {
+public class Bullet extends GameObject {
     int x, y ,vx, vy ,angle;
     int R = 7;
     BufferedImage bulletImage;

@@ -14,7 +14,7 @@ import java.util.ArrayList;
  *
  * @author anthony-pc
  */
-public class Tank{
+public class Tank extends CollidableObject {
 
 
     private int x;
@@ -44,7 +44,7 @@ public class Tank{
         this.vy = vy;
         this.img = img;
         this.angle = angle;
-        this.hitBox = new Rectangle(x, y, this.img.getWidth(), this.img.getHeight());
+        this.hitBox = this.getHitBox();
         this.ammo = new ArrayList<>();
     }
 
@@ -56,21 +56,33 @@ public class Tank{
 
     public int getX() { return x; }
 
+    public int getXCoords(Tank t) {
+        int x = t.getX();
+        if (x < GameConstants.GAME_SCREEN_WIDTH / 4)
+            x = GameConstants.GAME_SCREEN_WIDTH / 4;
+        if (x > GameConstants.GAME_WORLD_WIDTH - GameConstants.GAME_SCREEN_WIDTH / 4)
+            x = GameConstants.GAME_WORLD_WIDTH - GameConstants.GAME_SCREEN_WIDTH / 4;
+        return x;
+    }
+
     public int getY() { return y; }
 
-    public int getAngle() { return angle; }
-
-    public Rectangle getHitBox() {
-        return hitBox.getBounds();
+    public int getYCoords(Tank t) {
+        int y = t.getY();
+        if (y < GameConstants.GAME_SCREEN_HEIGHT / 2)
+            y = GameConstants.GAME_SCREEN_HEIGHT / 2;
+        if (y > GameConstants.GAME_WORLD_HEIGHT - GameConstants.GAME_SCREEN_HEIGHT / 2)
+            y = GameConstants.GAME_WORLD_HEIGHT - GameConstants.GAME_SCREEN_HEIGHT / 2;
+        return y;
     }
+
+    public int getAngle() { return angle; }
 
     void toggleUpPressed() {
         this.UpPressed = true;
     }
 
-    void toggleDownPressed() {
-        this.DownPressed = true;
-    }
+    void toggleDownPressed() { this.DownPressed = true; }
 
     void toggleRightPressed() {
         this.RightPressed = true;
@@ -100,7 +112,7 @@ public class Tank{
         this.ShootPressed = false;
     }
 
-    void update() {
+    public void update() {
         if (this.UpPressed) {
             this.moveForwards();
         }
@@ -116,7 +128,7 @@ public class Tank{
         }
 
         if (this.ShootPressed && TRE.tick % 20 == 0) {
-            Bullet b = new Bullet(x, y, angle, TRE.bulletImage);
+            Bullet b = new Bullet(x, y, angle, Resource.getResourceImage("bullet"));
             this.ammo.add(b);
         }
         this.ammo.forEach(bullet -> bullet.update());
@@ -167,12 +179,33 @@ public class Tank{
     }
 
     @Override
+    public void checkCollision(CollidableObject c) {
+        if (this.getHitBox().intersects(c.getHitBox())) {
+            Rectangle intersection = this.getHitBox().intersection(c.getHitBox());
+
+            if(intersection.height > intersection.width && this.x < intersection.x) // Intersects left
+                x -= intersection.width / 2;
+            else if(intersection.height > intersection.width && this.x > c.getHitBox().x) // Intersects right
+                x += intersection.width / 2;
+            else if(intersection.height < intersection.width && this.y < intersection.y) // Intersects up
+                y -= intersection.height / 2;
+            else if(intersection.height < intersection.width && this.y > c.getHitBox().y) // Intersects down
+                y += intersection.height / 2;
+        }
+    }
+
+    @Override
+    public Rectangle getHitBox() {
+        return new Rectangle(x, y, this.img.getWidth(), this.img.getHeight());
+    }
+
+    @Override
     public String toString() {
         return "x=" + x + ", y=" + y + ", angle=" + angle;
     }
 
 
-    void drawImage(Graphics g) {
+    public void drawImage(Graphics g) {
         AffineTransform rotation = AffineTransform.getTranslateInstance(x, y);
         rotation.rotate(Math.toRadians(angle), this.img.getWidth() / 2.0, this.img.getHeight() / 2.0);
         Graphics2D g2d = (Graphics2D) g;
@@ -181,7 +214,4 @@ public class Tank{
         g2d.setColor(Color.CYAN);
         g2d.drawRect(x, y, this.img.getWidth(), this.img.getHeight());
     }
-
-
-
 }
