@@ -1,0 +1,5 @@
+0 --> MEANS NOTHING
+2 --> Breakable Wall
+3 --> unBreakable Wall
+4-8 --> Powerups
+9 --> unbreakable Walls, walls that are not used in collisions
