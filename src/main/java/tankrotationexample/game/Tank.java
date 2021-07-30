@@ -131,7 +131,14 @@ public class Tank extends CollidableObject {
             Bullet b = new Bullet(x, y, angle, Resource.getResourceImage("bullet"));
             this.ammo.add(b);
         }
-        this.ammo.forEach(bullet -> bullet.update());
+        for(int i = 0; i < ammo.size(); i++){
+            if(ammo.get(i).hasCollided()) {
+                ammo.remove(i);
+            }
+            else{
+                ammo.get(i).update();
+            }
+        }
     }
 
     private void rotateLeft() {
@@ -192,12 +199,20 @@ public class Tank extends CollidableObject {
             else if(intersection.height < intersection.width && this.y > c.getHitBox().y) // Intersects down
                 y += intersection.height / 2;
         }
+
+        for (Bullet b : ammo) {
+            b.checkCollision(c);
+            c.checkCollision(b);
+        }
     }
 
     @Override
     public Rectangle getHitBox() {
         return new Rectangle(x, y, this.img.getWidth(), this.img.getHeight());
     }
+
+    @Override
+    public boolean hasCollided() { return false; }
 
     @Override
     public String toString() {

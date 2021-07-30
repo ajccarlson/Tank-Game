@@ -7,12 +7,30 @@ public class BreakWall extends Wall {
     int x, y;
     int state = 2;
     BufferedImage wallImage;
+    Rectangle hitBox;
+    private boolean collided = false;
 
     public BreakWall(int x, int y, BufferedImage wallImage) {
         this.x = x;
         this.y = y;
         this.wallImage = wallImage;
+        this.hitBox = new Rectangle(x, y, this.wallImage.getWidth(), this.wallImage.getHeight());
     }
+
+    @Override
+    public void checkCollision(CollidableObject c) {
+        if (c instanceof Bullet) {
+            if (this.getHitBox().intersects(c.getHitBox())) {
+
+            }
+        }
+    }
+
+    @Override
+    public Rectangle getHitBox() { return hitBox; }
+
+    @Override
+    public boolean hasCollided() { return collided; }
 
     @Override
     public void drawImage(Graphics g) {

@@ -7,18 +7,19 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
-public class Bullet extends GameObject {
+public class Bullet extends CollidableObject {
     int x, y ,vx, vy ,angle;
     int R = 7;
     BufferedImage bulletImage;
     Rectangle hitBox;
+    private boolean collided = false;
 
     public Bullet(int x, int y, int angle, BufferedImage bulletImage) {
         this.x = x;
         this.y = y;
         this.angle = angle;
         this.bulletImage = bulletImage;
-        this.hitBox = new Rectangle(x, y, this.bulletImage.getWidth(), this.bulletImage.getHeight());
+        this.hitBox = this.getHitBox();
     }
 
     public void moveForwards() {
@@ -43,6 +44,21 @@ public class Bullet extends GameObject {
             y = GameConstants.GAME_WORLD_HEIGHT - 80;
         }
     }
+
+    @Override
+    public void checkCollision(CollidableObject c) {
+        if (this.getHitBox().intersects(c.getHitBox())) {
+            collided = true;
+        }
+    }
+
+    @Override
+    public Rectangle getHitBox() {
+        return new Rectangle(x, y, this.bulletImage.getWidth(), this.bulletImage.getHeight());
+    }
+
+    @Override
+    public boolean hasCollided() { return collided; }
 
     public void update() {
         moveForwards();
