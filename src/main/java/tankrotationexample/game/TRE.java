@@ -73,8 +73,8 @@ public class TRE extends JPanel implements Runnable {
         this.t1.setX(300);
         this.t1.setY(300);
         this.t1.setAngle(0);
-        this.t2.setX(700);
-        this.t2.setY(700);
+        this.t2.setX(950);
+        this.t2.setY(615);
         this.t2.setAngle(180);
     }
 
@@ -125,7 +125,7 @@ public class TRE extends JPanel implements Runnable {
         }
 
         t1 = new Tank(300, 300, 0, 0, 0, Resource.getResourceImage("tank1"));
-        t2 = new Tank(500, 500, 0, 0, 0, Resource.getResourceImage("tank2"));
+        t2 = new Tank(950, 615, 0, 0, 180, Resource.getResourceImage("tank2"));
         TankControl tc1 = new TankControl(t1, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
         TankControl tc2 = new TankControl(t2, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
         this.lf.getJf().addKeyListener(tc1);
