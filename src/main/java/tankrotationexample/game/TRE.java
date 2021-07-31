@@ -32,6 +32,7 @@ public class TRE extends JPanel implements Runnable {
     private Tank t1;
     private Tank t2;
     ArrayList<GameObject> gameObjects;
+    ArrayList<CollidableObject> collidableObjects;
     private Launcher lf;
     static long tick = 0;
 
@@ -47,8 +48,13 @@ public class TRE extends JPanel implements Runnable {
                this.tick++;
                this.gameObjects.forEach(gameObject -> gameObject.update());
                this.repaint();   // redraw game
-               t1.checkCollision(t2);
-               t2.checkCollision(t1);
+               for (int i = 0; i < this.collidableObjects.size(); i++) {
+                   for (int j = 0; j < this.collidableObjects.size(); j++) {
+                       if (this.collidableObjects.get(i) == this.collidableObjects.get(j))
+                           continue;
+                       this.collidableObjects.get(i).checkCollision(this.collidableObjects.get(j));
+                   }
+               }
                Thread.sleep(1000 / 144); //sleep for a few milliseconds
                //System.out.println(t1);
                /*
@@ -89,6 +95,7 @@ public class TRE extends JPanel implements Runnable {
                                        BufferedImage.TYPE_INT_RGB);
 
         this.gameObjects = new ArrayList<>();
+        this.collidableObjects = new ArrayList<>();
         try {
             /*
              * note class loaders read files from the out folder (build folder in Netbeans) and not the
@@ -112,10 +119,12 @@ public class TRE extends JPanel implements Runnable {
                     switch (mapInfo[curCol]) {
                         case "2":
                             this.gameObjects.add(new BreakWall(curCol * 30, curRow * 30, Resource.getResourceImage("break")));
+                            this.collidableObjects.add(new BreakWall(curCol * 30, curRow * 30, Resource.getResourceImage("break")));
                             break;
                         case "3":
                         case "9":
                             this.gameObjects.add(new UnBreakWall(curCol * 30, curRow * 30, Resource.getResourceImage("unbreak")));
+                            this.collidableObjects.add(new UnBreakWall(curCol * 30, curRow * 30, Resource.getResourceImage("unbreak")));
                     }
                 }
             }
@@ -133,7 +142,9 @@ public class TRE extends JPanel implements Runnable {
         //this.setBackground(Color.BLACK);
 
         this.gameObjects.add(t1);
+        this.collidableObjects.add(t1);
         this.gameObjects.add(t2);
+        this.collidableObjects.add(t2);
     }
 
 
