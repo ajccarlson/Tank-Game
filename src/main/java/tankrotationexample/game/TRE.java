@@ -172,8 +172,10 @@ public class TRE extends JPanel implements Runnable {
 
         this.gameObjects.add(t1);
         this.collidableObjects.add(t1);
+        this.destroyableObjects.add(t1);
         this.gameObjects.add(t2);
         this.collidableObjects.add(t2);
+        this.destroyableObjects.add(t2);
     }
 
 

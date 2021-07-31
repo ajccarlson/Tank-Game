@@ -37,8 +37,8 @@ public class Bullet extends CollidableObject {
         if (x >= GameConstants.GAME_WORLD_WIDTH - 88) {
             x = GameConstants.GAME_WORLD_WIDTH - 88;
         }
-        if (y < 40) {
-            y = 40;
+        if (y < 30) {
+            y = 30;
         }
         if (y >= GameConstants.GAME_WORLD_HEIGHT - 80) {
             y = GameConstants.GAME_WORLD_HEIGHT - 80;

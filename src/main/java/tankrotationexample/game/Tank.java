@@ -14,7 +14,7 @@ import java.util.ArrayList;
  *
  * @author anthony-pc
  */
-public class Tank extends CollidableObject {
+public class Tank extends DestroyableObject {
 
 
     private int x;
@@ -26,6 +26,7 @@ public class Tank extends CollidableObject {
     private final int R = 2;
     private final float ROTATIONSPEED = 3.0f;
     private int currentHealth = 100;
+    private boolean destroyed = false;
 
     private Rectangle hitBox;
     private ArrayList<Bullet> ammo;
@@ -180,8 +181,8 @@ public class Tank extends CollidableObject {
         if (x >= GameConstants.GAME_WORLD_WIDTH - 88) {
             x = GameConstants.GAME_WORLD_WIDTH - 88;
         }
-        if (y < 40) {
-            y = 40;
+        if (y < 30) {
+            y = 30;
         }
         if (y >= GameConstants.GAME_WORLD_HEIGHT - 80) {
             y = GameConstants.GAME_WORLD_HEIGHT - 80;
@@ -191,6 +192,7 @@ public class Tank extends CollidableObject {
     public void collided(int value) {
         if (currentHealth - value <= 0) {
             currentHealth = 0;
+            destroyed = true;
         }
         else
             currentHealth -= value;
@@ -228,6 +230,9 @@ public class Tank extends CollidableObject {
 
     @Override
     public boolean hasCollided() { return false; }
+
+    @Override
+    public boolean isDestroyed() { return destroyed; }
 
     @Override
     public String toString() {
