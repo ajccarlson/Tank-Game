@@ -33,6 +33,7 @@ public class TRE extends JPanel implements Runnable {
     private Tank t2;
     ArrayList<GameObject> gameObjects;
     ArrayList<CollidableObject> collidableObjects;
+    ArrayList<DestroyableObject> destroyableObjects;
     private Launcher lf;
     static long tick = 0;
 
@@ -46,15 +47,37 @@ public class TRE extends JPanel implements Runnable {
            this.resetGame();
            while (true) {
                this.tick++;
-               this.gameObjects.forEach(gameObject -> gameObject.update());
-               this.repaint();   // redraw game
-               for (int i = 0; i < this.collidableObjects.size(); i++) {
-                   for (int j = 0; j < this.collidableObjects.size(); j++) {
-                       if (this.collidableObjects.get(i) == this.collidableObjects.get(j))
-                           continue;
-                       this.collidableObjects.get(i).checkCollision(this.collidableObjects.get(j));
+
+               for (int i = 0; i < this.gameObjects.size(); i++) {
+                   this.gameObjects.get(i).update();
+
+                   for (int j = 0; j < this.gameObjects.size(); j++) {
+                       if (j < this.collidableObjects.size()) {
+                           if (this.collidableObjects.get(i) != this.collidableObjects.get(j))
+                               this.collidableObjects.get(i).checkCollision(this.collidableObjects.get(j));
+                       }
+
+                       if (j < this.destroyableObjects.size()) {
+                           if (this.gameObjects.get(i) == this.destroyableObjects.get(j) && this.destroyableObjects.get(j).isDestroyed()) {
+                               for (int k = 0; k < this.collidableObjects.size(); k++) {
+                                   if (this.gameObjects.get(i) == this.collidableObjects.get(k)) {
+                                       collidableObjects.remove(k);
+                                       break;
+                                   }
+                               }
+                               gameObjects.remove(i);
+                               destroyableObjects.remove(j);
+                               break;
+                           }
+                       }
+
+                       if (j >= this.collidableObjects.size() && j >= this.destroyableObjects.size()) {
+                           break;
+                       }
                    }
                }
+
+               this.repaint();   // redraw game
                Thread.sleep(1000 / 144); //sleep for a few milliseconds
                //System.out.println(t1);
                /*
@@ -96,6 +119,7 @@ public class TRE extends JPanel implements Runnable {
 
         this.gameObjects = new ArrayList<>();
         this.collidableObjects = new ArrayList<>();
+        this.destroyableObjects = new ArrayList<>();
         try {
             /*
              * note class loaders read files from the out folder (build folder in Netbeans) and not the
@@ -118,13 +142,18 @@ public class TRE extends JPanel implements Runnable {
                 for (int curCol = 0; curCol < numCols; curCol++) {
                     switch (mapInfo[curCol]) {
                         case "2":
-                            this.gameObjects.add(new BreakWall(curCol * 30, curRow * 30, Resource.getResourceImage("break")));
-                            this.collidableObjects.add(new BreakWall(curCol * 30, curRow * 30, Resource.getResourceImage("break")));
+                            BreakWall breakWallTemp = new BreakWall(curCol * 30, curRow * 30, Resource.getResourceImage("break"));
+
+                            this.gameObjects.add(breakWallTemp);
+                            this.collidableObjects.add(breakWallTemp);
+                            this.destroyableObjects.add(breakWallTemp);
                             break;
                         case "3":
                         case "9":
-                            this.gameObjects.add(new UnBreakWall(curCol * 30, curRow * 30, Resource.getResourceImage("unbreak")));
-                            this.collidableObjects.add(new UnBreakWall(curCol * 30, curRow * 30, Resource.getResourceImage("unbreak")));
+                            UnBreakWall unBreakWallTemp = new UnBreakWall(curCol * 30, curRow * 30, Resource.getResourceImage("unbreak"));
+
+                            this.gameObjects.add(unBreakWallTemp);
+                            this.collidableObjects.add(unBreakWallTemp);
                     }
                 }
             }

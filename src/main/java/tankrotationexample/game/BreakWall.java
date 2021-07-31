@@ -8,7 +8,8 @@ public class BreakWall extends Wall {
     int state = 2;
     BufferedImage wallImage;
     Rectangle hitBox;
-    private boolean collided = false;
+    private int currentHealth = 20;
+    private boolean destroyed = false;
 
     public BreakWall(int x, int y, BufferedImage wallImage) {
         this.x = x;
@@ -17,12 +18,20 @@ public class BreakWall extends Wall {
         this.hitBox = new Rectangle(x, y, this.wallImage.getWidth(), this.wallImage.getHeight());
     }
 
+    public void collided(int value) {
+        if (currentHealth - value <= 0) {
+            currentHealth = 0;
+            destroyed = true;
+        }
+        else
+            currentHealth -= value;
+    }
+
     @Override
     public void checkCollision(CollidableObject c) {
         if (c instanceof Bullet) {
-            if (this.getHitBox().intersects(c.getHitBox())) {
-
-            }
+            if (this.getHitBox().intersects(c.getHitBox()))
+                collided(10);
         }
     }
 
@@ -30,7 +39,10 @@ public class BreakWall extends Wall {
     public Rectangle getHitBox() { return this.hitBox; }
 
     @Override
-    public boolean hasCollided() { return collided; }
+    public boolean hasCollided() { return false; }
+
+    @Override
+    public boolean isDestroyed() { return destroyed; }
 
     @Override
     public void drawImage(Graphics g) {

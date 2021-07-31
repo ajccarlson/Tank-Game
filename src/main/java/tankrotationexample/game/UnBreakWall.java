@@ -25,6 +25,9 @@ public class UnBreakWall extends Wall {
     public boolean hasCollided() { return false; }
 
     @Override
+    public boolean isDestroyed() { return false; }
+
+    @Override
     public void drawImage(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.drawImage(this.wallImage, x, y, null);

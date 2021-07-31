@@ -25,6 +25,7 @@ public class Tank extends CollidableObject {
 
     private final int R = 2;
     private final float ROTATIONSPEED = 3.0f;
+    private int currentHealth = 100;
 
     private Rectangle hitBox;
     private ArrayList<Bullet> ammo;
@@ -77,6 +78,8 @@ public class Tank extends CollidableObject {
     }
 
     public int getAngle() { return angle; }
+
+    public int getCurrentHealth() { return currentHealth; }
 
     void toggleUpPressed() {
         this.UpPressed = true;
@@ -185,19 +188,31 @@ public class Tank extends CollidableObject {
         }
     }
 
+    public void collided(int value) {
+        if (currentHealth - value <= 0) {
+            currentHealth = 0;
+        }
+        else
+            currentHealth -= value;
+    }
+
     @Override
     public void checkCollision(CollidableObject c) {
         if (this.getHitBox().intersects(c.getHitBox())) {
-            Rectangle intersection = this.getHitBox().intersection(c.getHitBox());
+            if (c instanceof Bullet)
+                collided(10);
+            else {
+                Rectangle intersection = this.getHitBox().intersection(c.getHitBox());
 
-            if(intersection.height > intersection.width && this.x < intersection.x) // Intersects left
-                x -= intersection.width / 2;
-            else if(intersection.height > intersection.width && this.x > c.getHitBox().x) // Intersects right
-                x += intersection.width / 2;
-            else if(intersection.height < intersection.width && this.y < intersection.y) // Intersects up
-                y -= intersection.height / 2;
-            else if(intersection.height < intersection.width && this.y > c.getHitBox().y) // Intersects down
-                y += intersection.height / 2;
+                if (intersection.height > intersection.width && this.x < intersection.x) // Intersects left
+                    x -= intersection.width / 2;
+                else if (intersection.height > intersection.width && this.x > c.getHitBox().x) // Intersects right
+                    x += intersection.width / 2;
+                else if (intersection.height < intersection.width && this.y < intersection.y) // Intersects up
+                    y -= intersection.height / 2;
+                else if (intersection.height < intersection.width && this.y > c.getHitBox().y) // Intersects down
+                    y += intersection.height / 2;
+            }
         }
 
         for (Bullet b : ammo) {
