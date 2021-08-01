@@ -10,9 +10,12 @@ import java.awt.image.BufferedImage;
 public class Bullet extends CollidableObject {
     int x, y ,vx, vy ,angle;
     int R = 7;
+
+    private boolean collided = false;
+
     BufferedImage bulletImage;
     Rectangle hitBox;
-    private boolean collided = false;
+
 
     public Bullet(int x, int y, int angle, BufferedImage bulletImage) {
         this.x = x;

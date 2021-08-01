@@ -5,8 +5,10 @@ import java.awt.image.BufferedImage;
 
 public class UnBreakWall extends Wall {
     int x, y;
+
     BufferedImage wallImage;
     Rectangle hitBox;
+
 
     public UnBreakWall(int x, int y, BufferedImage wallImage) {
         this.x = x;

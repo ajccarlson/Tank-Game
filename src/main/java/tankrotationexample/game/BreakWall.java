@@ -6,10 +6,13 @@ import java.awt.image.BufferedImage;
 public class BreakWall extends Wall {
     int x, y;
     int state = 2;
-    BufferedImage wallImage;
-    Rectangle hitBox;
+
     private int currentHealth = 20;
     private boolean destroyed = false;
+
+    BufferedImage wallImage;
+    Rectangle hitBox;
+
 
     public BreakWall(int x, int y, BufferedImage wallImage) {
         this.x = x;

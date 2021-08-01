@@ -45,6 +45,7 @@ public class TRE extends JPanel implements Runnable {
     public void run(){
        try {
            this.resetGame();
+
            while (true) {
                this.tick++;
 
@@ -61,12 +62,22 @@ public class TRE extends JPanel implements Runnable {
                            if (this.gameObjects.get(i) == this.destroyableObjects.get(j) && this.destroyableObjects.get(j).isDestroyed()) {
                                for (int k = 0; k < this.collidableObjects.size(); k++) {
                                    if (this.gameObjects.get(i) == this.collidableObjects.get(k)) {
+                                       /*System.out.println("Removed Game Object: " + this.gameObjects.get(i));
+                                       System.out.println("Removed Collidable Object: " + this.collidableObjects.get(k));
+                                       System.out.println("Removed Destroyable Object: " + this.destroyableObjects.get(j));*/
+
                                        collidableObjects.remove(k);
                                        break;
                                    }
                                }
                                gameObjects.remove(i);
                                destroyableObjects.remove(j);
+
+                               if (t1.isDestroyed())
+                                   resetT1();
+                               if (t2.isDestroyed())
+                                   resetT2();
+
                                break;
                            }
                        }
@@ -84,7 +95,7 @@ public class TRE extends JPanel implements Runnable {
                * simulate an end game event
                * we will do this with by ending the game when drawn 20000 frames have been drawn
                */
-               if(this.tick > 20000){
+               if(this.tick > 20000 || t1.getLives() <= 0 || t2.getLives() <= 0){
                    this.lf.setFrame("end");
                    return;
                }
@@ -105,6 +116,28 @@ public class TRE extends JPanel implements Runnable {
         this.t2.setX(950);
         this.t2.setY(615);
         this.t2.setAngle(180);
+    }
+
+    public void resetT1() {
+        this.t1.setX(300);
+        this.t1.setY(300);
+        this.t1.setAngle(0);
+        this.t1.setDestroyed(false);
+
+        this.gameObjects.add(t1);
+        this.collidableObjects.add(t1);
+        this.destroyableObjects.add(t1);
+    }
+
+    public void resetT2() {
+        this.t2.setX(950);
+        this.t2.setY(615);
+        this.t2.setAngle(180);
+        this.t2.setDestroyed(false);
+
+        this.gameObjects.add(t2);
+        this.collidableObjects.add(t2);
+        this.destroyableObjects.add(t2);
     }
 
 
@@ -173,6 +206,7 @@ public class TRE extends JPanel implements Runnable {
         this.gameObjects.add(t1);
         this.collidableObjects.add(t1);
         this.destroyableObjects.add(t1);
+
         this.gameObjects.add(t2);
         this.collidableObjects.add(t2);
         this.destroyableObjects.add(t2);
@@ -183,9 +217,15 @@ public class TRE extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         Graphics2D buffer = world.createGraphics();
-        buffer.setColor(Color.BLACK);
+
+        buffer.setColor(new Color(210, 198, 162));
         buffer.fillRect(0,0, GameConstants.GAME_WORLD_WIDTH, GameConstants.GAME_WORLD_HEIGHT);
         this.gameObjects.forEach(gameObject -> gameObject.drawImage(buffer));
+
+        g2.setColor(Color.GREEN);
+        g2.fillRect(GameConstants.GAME_SCREEN_WIDTH / 4, 30, 2* t1.getCurrentHealth(), 20);
+        g2.fillRect(GameConstants.GAME_SCREEN_WIDTH - GameConstants.GAME_SCREEN_WIDTH / 4, 30, 2* t2.getCurrentHealth(), 20);
+
         BufferedImage leftHalf = world.getSubimage(this.t1.getXCoords(t1) - GameConstants.GAME_SCREEN_WIDTH / 4, this.t1.getYCoords(t1) - GameConstants.GAME_SCREEN_HEIGHT / 2, GameConstants.GAME_SCREEN_WIDTH / 2, GameConstants.GAME_SCREEN_HEIGHT);
         BufferedImage rightHalf = world.getSubimage(this.t2.getXCoords(t2) - GameConstants.GAME_SCREEN_WIDTH / 4, this.t2.getYCoords(t2) - GameConstants.GAME_SCREEN_HEIGHT / 2, GameConstants.GAME_SCREEN_WIDTH / 2, GameConstants.GAME_SCREEN_HEIGHT);
         BufferedImage mm = world.getSubimage(0, 0, GameConstants.GAME_SCREEN_WIDTH, GameConstants.GAME_SCREEN_HEIGHT);
