@@ -13,12 +13,12 @@ public class Resource {
     static {
         Resource.resources = new HashMap<>();
         try {
-            Resource.resources.put("background", read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("background.jpg"))));
             Resource.resources.put("tank1", read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("tank1.png"))));
             Resource.resources.put("tank2", read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("tank2.png"))));
             Resource.resources.put("bullet", read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("bullet.gif"))));
             Resource.resources.put("break", read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("break.gif"))));
             Resource.resources.put("unbreak", read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("unBreak.gif"))));
+            Resource.resources.put("heart", read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("heart.png"))));
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(-5);

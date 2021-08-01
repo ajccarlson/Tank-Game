@@ -36,6 +36,7 @@ public class TRE extends JPanel implements Runnable {
     ArrayList<DestroyableObject> destroyableObjects;
     private Launcher lf;
     static long tick = 0;
+    //private String displayTime = "";
 
     public TRE(Launcher lf){
         this.lf = lf;
@@ -201,7 +202,6 @@ public class TRE extends JPanel implements Runnable {
         TankControl tc2 = new TankControl(t2, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
         this.lf.getJf().addKeyListener(tc1);
         this.lf.getJf().addKeyListener(tc2);
-        //this.setBackground(Color.BLACK);
 
         this.gameObjects.add(t1);
         this.collidableObjects.add(t1);
@@ -216,21 +216,54 @@ public class TRE extends JPanel implements Runnable {
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        Graphics2D buffer = world.createGraphics();
 
-        buffer.setColor(new Color(210, 198, 162));
+        Graphics2D buffer = world.createGraphics();
+        buffer.setColor(new Color(89, 22, 11));
         buffer.fillRect(0,0, GameConstants.GAME_WORLD_WIDTH, GameConstants.GAME_WORLD_HEIGHT);
+        buffer.setColor(new Color(210, 198, 162));
+        buffer.fillRect(0,0, GameConstants.GAME_SCREEN_WIDTH, GameConstants.GAME_SCREEN_HEIGHT);
         this.gameObjects.forEach(gameObject -> gameObject.drawImage(buffer));
 
-        g2.setColor(Color.GREEN);
-        g2.fillRect(GameConstants.GAME_SCREEN_WIDTH / 4, 30, 2* t1.getCurrentHealth(), 20);
-        g2.fillRect(GameConstants.GAME_SCREEN_WIDTH - GameConstants.GAME_SCREEN_WIDTH / 4, 30, 2* t2.getCurrentHealth(), 20);
-
-        BufferedImage leftHalf = world.getSubimage(this.t1.getXCoords(t1) - GameConstants.GAME_SCREEN_WIDTH / 4, this.t1.getYCoords(t1) - GameConstants.GAME_SCREEN_HEIGHT / 2, GameConstants.GAME_SCREEN_WIDTH / 2, GameConstants.GAME_SCREEN_HEIGHT);
-        BufferedImage rightHalf = world.getSubimage(this.t2.getXCoords(t2) - GameConstants.GAME_SCREEN_WIDTH / 4, this.t2.getYCoords(t2) - GameConstants.GAME_SCREEN_HEIGHT / 2, GameConstants.GAME_SCREEN_WIDTH / 2, GameConstants.GAME_SCREEN_HEIGHT);
+        BufferedImage leftHalf = world.getSubimage(this.t1.getXCoords(t1) - GameConstants.GAME_SCREEN_WIDTH / 4, this.t1.getYCoords(t1) - GameConstants.GAME_SCREEN_HEIGHT / 2, GameConstants.GAME_SCREEN_WIDTH / 2, GameConstants.GAME_SCREEN_HEIGHT - 65);
+        BufferedImage rightHalf = world.getSubimage(this.t2.getXCoords(t2) - GameConstants.GAME_SCREEN_WIDTH / 4, this.t2.getYCoords(t2) - GameConstants.GAME_SCREEN_HEIGHT / 2, GameConstants.GAME_SCREEN_WIDTH / 2, GameConstants.GAME_SCREEN_HEIGHT - 65);
         BufferedImage mm = world.getSubimage(0, 0, GameConstants.GAME_SCREEN_WIDTH, GameConstants.GAME_SCREEN_HEIGHT);
-        g2.drawImage(leftHalf,0,0,null);
-        g2.drawImage(rightHalf,GameConstants.GAME_SCREEN_WIDTH / 2 + 4,0,null);
+        g2.drawImage(leftHalf,0,65,null);
+        g2.drawImage(rightHalf,GameConstants.GAME_SCREEN_WIDTH / 2 + 4,65,null);
+
+        g2.setColor(Color.GRAY);
+        g2.fillRect(0, 0, GameConstants.GAME_SCREEN_WIDTH, 65);
+
+        /*g2.setColor(Color.BLACK);
+        g2.fillRect(GameConstants.GAME_SCREEN_WIDTH / 2 - 34, 0, 70, 60);
+
+        if (tick % 100 == 0)
+            displayTime = String.valueOf(tick);
+
+        g2.setColor(Color.WHITE);
+        g2.setFont(new Font("Impact", Font.PLAIN, 30));
+        g2.drawString(displayTime, GameConstants.GAME_SCREEN_WIDTH / 2 - 26, 38);*/
+
+        g2.setColor(Color.WHITE);
+        g2.setFont(new Font("Impact", Font.PLAIN, 30));
+        g2.drawString("Player 1", GameConstants.GAME_SCREEN_WIDTH / 4 - 131, 42);
+        g2.drawString("Player 2", GameConstants.GAME_SCREEN_WIDTH - GameConstants.GAME_SCREEN_WIDTH / 4 - 131, 42);
+
+        for(int i = 1; i <= t1.getLives(); i++){
+            g2.drawImage(Resource.getResourceImage("heart"), (Resource.getResourceImage("heart").getWidth() + 40) * i / 2, 10, null);
+        }
+
+        for(int i = 1; i <= t2.getLives(); i++){
+            g2.drawImage(Resource.getResourceImage("heart"), (Resource.getResourceImage("heart").getWidth() + 40) * i / 2 + GameConstants.GAME_SCREEN_WIDTH - GameConstants.GAME_SCREEN_WIDTH / 2 + 10, 10, null);
+        }
+
+        g2.setColor(Color.RED);
+        g2.fillRect(GameConstants.GAME_SCREEN_WIDTH / 4, 22, 200, 20);
+        g2.fillRect(GameConstants.GAME_SCREEN_WIDTH - GameConstants.GAME_SCREEN_WIDTH / 4, 20, 200, 20);
+
+        g2.setColor(Color.GREEN);
+        g2.fillRect(GameConstants.GAME_SCREEN_WIDTH / 4, 22, 2 * t1.getCurrentHealth(), 20);
+        g2.fillRect(GameConstants.GAME_SCREEN_WIDTH - GameConstants.GAME_SCREEN_WIDTH / 4, 20, 2 * t2.getCurrentHealth(), 20);
+
         g2.scale(0.2, 0.2);
         g2.drawImage(mm, GameConstants.GAME_SCREEN_WIDTH * 2, 3650, null);
     }
