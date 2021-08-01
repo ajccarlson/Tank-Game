@@ -25,8 +25,10 @@ public class Tank extends DestroyableObject {
 
     private final int R = 2;
     private final float ROTATIONSPEED = 3.0f;
-    private int currentHealth = 100;
-    private boolean destroyed = false;
+
+    private int currentHealth;
+    private int lives;
+    private boolean destroyed;
 
     private Rectangle hitBox;
     private ArrayList<Bullet> ammo;
@@ -48,6 +50,9 @@ public class Tank extends DestroyableObject {
         this.angle = angle;
         this.hitBox = this.getHitBox();
         this.ammo = new ArrayList<>();
+        this.currentHealth = 100;
+        this.lives = 3;
+        this.destroyed = false;
     }
 
     void setX(int x){ this.x = x; }
@@ -55,6 +60,18 @@ public class Tank extends DestroyableObject {
     void setY(int y) { this.y = y;}
 
     void setAngle(int angle) { this.angle = angle; }
+
+    void setCurrentHealth(int value) { this.currentHealth = value; }
+
+    void setLives(int value) {
+        this.lives += value;
+
+        if (this.lives > 0) {
+            this.currentHealth = 100;
+        }
+    }
+
+    void setDestroyed(boolean state) { this.destroyed = state; }
 
     public int getX() { return x; }
 
@@ -80,7 +97,9 @@ public class Tank extends DestroyableObject {
 
     public int getAngle() { return angle; }
 
-    public int getCurrentHealth() { return currentHealth; }
+    public int getCurrentHealth() { return this.currentHealth; }
+
+    public int getLives() { return this.lives; }
 
     void toggleUpPressed() {
         this.UpPressed = true;
@@ -190,12 +209,12 @@ public class Tank extends DestroyableObject {
     }
 
     public void collided(int value) {
-        if (currentHealth - value <= 0) {
-            currentHealth = 0;
-            destroyed = true;
+        if (this.currentHealth - value <= 0) {
+            this.setDestroyed(true);
+            this.setLives(-1);
         }
         else
-            currentHealth -= value;
+            this.currentHealth -= value;
     }
 
     @Override
@@ -232,7 +251,7 @@ public class Tank extends DestroyableObject {
     public boolean hasCollided() { return false; }
 
     @Override
-    public boolean isDestroyed() { return destroyed; }
+    public boolean isDestroyed() { return this.destroyed; }
 
     @Override
     public String toString() {
@@ -246,7 +265,7 @@ public class Tank extends DestroyableObject {
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(this.img, rotation, null);
         this.ammo.forEach(bullet -> bullet.drawImage(g));
-        g2d.setColor(Color.CYAN);
-        g2d.drawRect(x, y, this.img.getWidth(), this.img.getHeight());
+        /*g2d.setColor(Color.CYAN);
+        g2d.drawRect(x, y, this.img.getWidth(), this.img.getHeight());*/
     }
 }
