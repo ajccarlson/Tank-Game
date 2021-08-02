@@ -1,4 +1,4 @@
-package tankrotationexample.game;
+package tankrotationexample.game.object_classes;
 
 import java.awt.*;
 
