@@ -18,7 +18,9 @@ public class Resource {
             Resource.resources.put("bullet", read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("bullet.gif"))));
             Resource.resources.put("break", read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("break.gif"))));
             Resource.resources.put("unbreak", read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("unBreak.gif"))));
-            Resource.resources.put("extraLife", read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("extraLife1.png"))));
+            Resource.resources.put("extraLife", read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("extraLife.png"))));
+            Resource.resources.put("extraFiringSpeed", read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("extraFiringSpeed.png"))));
+            Resource.resources.put("speedBoost", read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("speedBoost.png"))));
             Resource.resources.put("heart", read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("heart.png"))));
         } catch (IOException e) {
             e.printStackTrace();
