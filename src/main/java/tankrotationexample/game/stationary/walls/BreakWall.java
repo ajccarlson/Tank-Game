@@ -1,11 +1,13 @@
-package tankrotationexample.game;
+package tankrotationexample.game.stationary.walls;
+
+import tankrotationexample.game.moveable.Bullet;
+import tankrotationexample.game.object_classes.CollidableObject;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class BreakWall extends Wall {
     int x, y;
-    int state = 2;
 
     private int currentHealth = 20;
     private boolean destroyed = false;
@@ -45,13 +47,14 @@ public class BreakWall extends Wall {
     public boolean hasCollided() { return false; }
 
     @Override
+    public void setDestroyed(boolean state) { this.destroyed = state; }
+
+    @Override
     public boolean isDestroyed() { return destroyed; }
 
     @Override
     public void drawImage(Graphics g) {
-        if (state > 0) {
-            Graphics2D g2 = (Graphics2D) g;
-            g2.drawImage(this.wallImage, x, y, null);
-        }
+        Graphics2D g2 = (Graphics2D) g;
+        g2.drawImage(this.wallImage, x, y, null);
     }
 }

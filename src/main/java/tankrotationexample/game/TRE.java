@@ -8,17 +8,22 @@ package tankrotationexample.game;
 
 import tankrotationexample.GameConstants;
 import tankrotationexample.Launcher;
+import tankrotationexample.game.moveable.Tank;
+import tankrotationexample.game.object_classes.DestroyableObject;
+import tankrotationexample.game.object_classes.GameObject;
+import tankrotationexample.game.stationary.powerups.ExtraLife;
+import tankrotationexample.game.stationary.walls.BreakWall;
+import tankrotationexample.game.object_classes.CollidableObject;
+import tankrotationexample.game.stationary.walls.UnBreakWall;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 import static javax.imageio.ImageIO.read;
@@ -42,13 +47,17 @@ public class TRE extends JPanel implements Runnable {
         this.lf = lf;
     }
 
+    public void setTick(long tick) { this.tick = tick; }
+
+    public static long getTick() { return tick; }
+
     @Override
     public void run(){
        try {
            this.resetGame();
 
            while (true) {
-               this.tick++;
+               setTick(this.getTick() + 1);
 
                for (int i = 0; i < this.gameObjects.size(); i++) {
                    this.gameObjects.get(i).update();
@@ -96,7 +105,7 @@ public class TRE extends JPanel implements Runnable {
                * simulate an end game event
                * we will do this with by ending the game when drawn 20000 frames have been drawn
                */
-               if(this.tick > 20000 || t1.getLives() <= 0 || t2.getLives() <= 0){
+               if(this.getTick() > 20000 || t1.getLives() <= 0 || t2.getLives() <= 0){
                    this.lf.setFrame("end");
                    return;
                }
@@ -110,13 +119,20 @@ public class TRE extends JPanel implements Runnable {
      * Reset game to its initial state.
      */
     public void resetGame(){
-        this.tick = 0;
+        this.setTick(0);
         this.t1.setX(300);
         this.t1.setY(300);
         this.t1.setAngle(0);
         this.t2.setX(950);
         this.t2.setY(615);
         this.t2.setAngle(180);
+
+        this.destroyableObjects.forEach(destroyableObject -> destroyableObject.setDestroyed(false));
+
+        t1.setLives(3);
+        t1.setCurrentHealth(100);
+        t2.setLives(3);
+        t2.setCurrentHealth(100);
     }
 
     public void resetT1() {
@@ -182,6 +198,13 @@ public class TRE extends JPanel implements Runnable {
                             this.collidableObjects.add(breakWallTemp);
                             this.destroyableObjects.add(breakWallTemp);
                             break;
+                        case "4":
+                            ExtraLife extraLifeTemp = new ExtraLife(curCol * 30, curRow * 30, Resource.getResourceImage("extraLife"));
+
+                            this.gameObjects.add(extraLifeTemp);
+                            this.collidableObjects.add(extraLifeTemp);
+                            this.destroyableObjects.add(extraLifeTemp);
+                            break;
                         case "3":
                         case "9":
                             UnBreakWall unBreakWallTemp = new UnBreakWall(curCol * 30, curRow * 30, Resource.getResourceImage("unbreak"));
@@ -236,8 +259,8 @@ public class TRE extends JPanel implements Runnable {
         /*g2.setColor(Color.BLACK);
         g2.fillRect(GameConstants.GAME_SCREEN_WIDTH / 2 - 34, 0, 70, 60);
 
-        if (tick % 100 == 0)
-            displayTime = String.valueOf(tick);
+        if (getTick() % 100 == 0)
+            displayTime = String.valueOf(getTick());
 
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Impact", Font.PLAIN, 30));

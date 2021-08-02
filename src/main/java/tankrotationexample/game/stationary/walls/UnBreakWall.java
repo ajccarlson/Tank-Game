@@ -1,4 +1,6 @@
-package tankrotationexample.game;
+package tankrotationexample.game.stationary.walls;
+
+import tankrotationexample.game.object_classes.CollidableObject;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -25,6 +27,9 @@ public class UnBreakWall extends Wall {
 
     @Override
     public boolean hasCollided() { return false; }
+
+    @Override
+    public void setDestroyed(boolean state) {}
 
     @Override
     public boolean isDestroyed() { return false; }

@@ -6,6 +6,8 @@
 package tankrotationexample.game;
 
 
+import tankrotationexample.game.moveable.Tank;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 

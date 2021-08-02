@@ -1,9 +1,12 @@
-package tankrotationexample.game;
+package tankrotationexample.game.moveable;
 
 
 
-import org.w3c.dom.css.Rect;
 import tankrotationexample.GameConstants;
+import tankrotationexample.game.Resource;
+import tankrotationexample.game.TRE;
+import tankrotationexample.game.object_classes.CollidableObject;
+import tankrotationexample.game.object_classes.DestroyableObject;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -41,7 +44,7 @@ public class Tank extends DestroyableObject {
     private boolean ShootPressed;
 
 
-    Tank(int x, int y, int vx, int vy, int angle, BufferedImage img) {
+    public Tank(int x, int y, int vx, int vy, int angle, BufferedImage img) {
         this.x = x;
         this.y = y;
         this.vx = vx;
@@ -55,23 +58,21 @@ public class Tank extends DestroyableObject {
         this.destroyed = false;
     }
 
-    void setX(int x){ this.x = x; }
+    public void setX(int x){ this.x = x; }
 
-    void setY(int y) { this.y = y;}
+    public void setY(int y) { this.y = y;}
 
-    void setAngle(int angle) { this.angle = angle; }
+    public void setAngle(int angle) { this.angle = angle; }
 
-    void setCurrentHealth(int value) { this.currentHealth = value; }
+    public void setCurrentHealth(int value) { this.currentHealth = value; }
 
-    void setLives(int value) {
-        this.lives += value;
+    public void setLives(int value) {
+        this.lives = value;
 
         if (this.lives > 0) {
             this.currentHealth = 100;
         }
     }
-
-    void setDestroyed(boolean state) { this.destroyed = state; }
 
     public int getX() { return x; }
 
@@ -101,37 +102,37 @@ public class Tank extends DestroyableObject {
 
     public int getLives() { return this.lives; }
 
-    void toggleUpPressed() {
+    public void toggleUpPressed() {
         this.UpPressed = true;
     }
 
-    void toggleDownPressed() { this.DownPressed = true; }
+    public void toggleDownPressed() { this.DownPressed = true; }
 
-    void toggleRightPressed() {
+    public void toggleRightPressed() {
         this.RightPressed = true;
     }
 
-    void toggleLeftPressed() {
+    public void toggleLeftPressed() {
         this.LeftPressed = true;
     }
 
-    void toggleShootPressed() {
+    public void toggleShootPressed() {
         this.ShootPressed = true;
     }
 
-    void unToggleUpPressed() { this.UpPressed = false; }
+    public void unToggleUpPressed() { this.UpPressed = false; }
 
-    void unToggleDownPressed() {
+    public void unToggleDownPressed() {
         this.DownPressed = false;
     }
 
-    void unToggleRightPressed() { this.RightPressed = false; }
+    public void unToggleRightPressed() { this.RightPressed = false; }
 
-    void unToggleLeftPressed() {
+    public void unToggleLeftPressed() {
         this.LeftPressed = false;
     }
 
-    void unToggleShootPressed() {
+    public void unToggleShootPressed() {
         this.ShootPressed = false;
     }
 
@@ -150,7 +151,7 @@ public class Tank extends DestroyableObject {
             this.rotateRight();
         }
 
-        if (this.ShootPressed && TRE.tick % 20 == 0) {
+        if (this.ShootPressed && TRE.getTick() % 20 == 0) {
             Bullet b = new Bullet(x, y, angle, Resource.getResourceImage("bullet"));
             this.ammo.add(b);
         }
@@ -211,7 +212,7 @@ public class Tank extends DestroyableObject {
     public void collided(int value) {
         if (this.currentHealth - value <= 0) {
             this.setDestroyed(true);
-            this.setLives(-1);
+            this.setLives(this.getLives() - 1);
         }
         else
             this.currentHealth -= value;
@@ -249,6 +250,9 @@ public class Tank extends DestroyableObject {
 
     @Override
     public boolean hasCollided() { return false; }
+
+    @Override
+    public void setDestroyed(boolean state) { this.destroyed = state; }
 
     @Override
     public boolean isDestroyed() { return this.destroyed; }

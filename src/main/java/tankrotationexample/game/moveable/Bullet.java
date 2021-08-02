@@ -1,7 +1,7 @@
-package tankrotationexample.game;
+package tankrotationexample.game.moveable;
 
-import org.w3c.dom.css.Rect;
 import tankrotationexample.GameConstants;
+import tankrotationexample.game.object_classes.CollidableObject;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
