@@ -25,10 +25,11 @@ public class Tank extends DestroyableObject {
     private int vx;
     private int vy;
     private int angle;
+    private int R;
 
-    private final int R = 2;
     private final float ROTATIONSPEED = 3.0f;
 
+    private int firingInterval;
     private int currentHealth;
     private int lives;
     private boolean destroyed;
@@ -49,10 +50,12 @@ public class Tank extends DestroyableObject {
         this.y = y;
         this.vx = vx;
         this.vy = vy;
-        this.img = img;
         this.angle = angle;
+        this.R = 2;
+        this.img = img;
         this.hitBox = this.getHitBox();
         this.ammo = new ArrayList<>();
+        this.firingInterval = 20;
         this.currentHealth = 100;
         this.lives = 3;
         this.destroyed = false;
@@ -64,10 +67,14 @@ public class Tank extends DestroyableObject {
 
     public void setAngle(int angle) { this.angle = angle; }
 
-    public void setCurrentHealth(int value) { this.currentHealth = value; }
+    public void setR(int R) { this.R = R; }
 
-    public void setLives(int value) {
-        this.lives = value;
+    public void setFiringInterval(int firingInterval) { this.firingInterval = firingInterval; }
+
+    public void setCurrentHealth(int currentHealth) { this.currentHealth = currentHealth; }
+
+    public void setLives(int lives) {
+        this.lives = lives;
 
         if (this.lives > 0) {
             this.currentHealth = 100;
@@ -97,6 +104,10 @@ public class Tank extends DestroyableObject {
     }
 
     public int getAngle() { return angle; }
+
+    public int getR() { return R; }
+
+    public int getFiringInterval() { return this.firingInterval; }
 
     public int getCurrentHealth() { return this.currentHealth; }
 
@@ -151,7 +162,7 @@ public class Tank extends DestroyableObject {
             this.rotateRight();
         }
 
-        if (this.ShootPressed && TRE.getTick() % 20 == 0) {
+        if (this.ShootPressed && TRE.getTick() % firingInterval == 0) {
             Bullet b = new Bullet(x, y, angle, Resource.getResourceImage("bullet"));
             this.ammo.add(b);
         }
@@ -174,8 +185,8 @@ public class Tank extends DestroyableObject {
     }
 
     private void moveBackwards() {
-        vx = (int) Math.round(R * Math.cos(Math.toRadians(angle)));
-        vy = (int) Math.round(R * Math.sin(Math.toRadians(angle)));
+        vx = (int) Math.round(this.getR() * Math.cos(Math.toRadians(angle)));
+        vy = (int) Math.round(this.getR() * Math.sin(Math.toRadians(angle)));
         x -= vx;
         y -= vy;
         checkBorder();
@@ -183,8 +194,8 @@ public class Tank extends DestroyableObject {
     }
 
     private void moveForwards() {
-        vx = (int) Math.round(R * Math.cos(Math.toRadians(angle)));
-        vy = (int) Math.round(R * Math.sin(Math.toRadians(angle)));
+        vx = (int) Math.round(this.getR() * Math.cos(Math.toRadians(angle)));
+        vy = (int) Math.round(this.getR() * Math.sin(Math.toRadians(angle)));
         x += vx;
         y += vy;
         checkBorder();

@@ -11,7 +11,9 @@ import tankrotationexample.Launcher;
 import tankrotationexample.game.moveable.Tank;
 import tankrotationexample.game.object_classes.DestroyableObject;
 import tankrotationexample.game.object_classes.GameObject;
+import tankrotationexample.game.stationary.powerups.ExtraFiringSpeed;
 import tankrotationexample.game.stationary.powerups.ExtraLife;
+import tankrotationexample.game.stationary.powerups.SpeedBoost;
 import tankrotationexample.game.stationary.walls.BreakWall;
 import tankrotationexample.game.object_classes.CollidableObject;
 import tankrotationexample.game.stationary.walls.UnBreakWall;
@@ -204,6 +206,20 @@ public class TRE extends JPanel implements Runnable {
                             this.gameObjects.add(extraLifeTemp);
                             this.collidableObjects.add(extraLifeTemp);
                             this.destroyableObjects.add(extraLifeTemp);
+                            break;
+                        case "5":
+                            ExtraFiringSpeed extraFiringSpeedTemp = new ExtraFiringSpeed(curCol * 30, curRow * 30, Resource.getResourceImage("extraFiringSpeed"));
+
+                            this.gameObjects.add(extraFiringSpeedTemp);
+                            this.collidableObjects.add(extraFiringSpeedTemp);
+                            this.destroyableObjects.add(extraFiringSpeedTemp);
+                            break;
+                        case "6":
+                            SpeedBoost speedBoostTemp = new SpeedBoost(curCol * 30, curRow * 30, Resource.getResourceImage("speedBoost"));
+
+                            this.gameObjects.add(speedBoostTemp);
+                            this.collidableObjects.add(speedBoostTemp);
+                            this.destroyableObjects.add(speedBoostTemp);
                             break;
                         case "3":
                         case "9":
