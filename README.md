@@ -39,7 +39,7 @@ IntelliJ IDEA
 
 ## Steps to Build your Project:
 1. Open IntelliJ
-2. Click on the green hammer icon labeled "Build Project"
+2. Click on the green hammer icon near the top of the IDE labeled "Build Project"
  
 ## Steps to run your Project:
 1. Open Windows PowerShell or your preferred terminal
