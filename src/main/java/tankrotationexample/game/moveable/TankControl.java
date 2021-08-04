@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tankrotationexample.game;
+package tankrotationexample.game.moveable;
 
 
 import tankrotationexample.game.moveable.Tank;

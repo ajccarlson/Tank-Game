@@ -174,6 +174,10 @@ public class Tank extends DestroyableObject {
                 ammo.get(i).update();
             }
         }
+
+        if (this.isDestroyed()) {
+            resetPowerups();
+        }
     }
 
     private void rotateLeft() {
@@ -229,6 +233,11 @@ public class Tank extends DestroyableObject {
             this.currentHealth -= value;
     }
 
+    public void resetPowerups() {
+        this.setR(2);
+        this.setFiringInterval(20);
+    }
+
     @Override
     public void checkCollision(CollidableObject c) {
         if (this.getHitBox().intersects(c.getHitBox())) {
@@ -280,7 +289,5 @@ public class Tank extends DestroyableObject {
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(this.img, rotation, null);
         this.ammo.forEach(bullet -> bullet.drawImage(g));
-        /*g2d.setColor(Color.CYAN);
-        g2d.drawRect(x, y, this.img.getWidth(), this.img.getHeight());*/
     }
 }
