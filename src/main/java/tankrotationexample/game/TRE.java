@@ -9,6 +9,7 @@ package tankrotationexample.game;
 import tankrotationexample.GameConstants;
 import tankrotationexample.Launcher;
 import tankrotationexample.game.moveable.Tank;
+import tankrotationexample.game.moveable.TankControl;
 import tankrotationexample.game.object_classes.DestroyableObject;
 import tankrotationexample.game.object_classes.GameObject;
 import tankrotationexample.game.stationary.powerups.ExtraFiringSpeed;
@@ -43,7 +44,6 @@ public class TRE extends JPanel implements Runnable {
     ArrayList<DestroyableObject> destroyableObjects;
     private Launcher lf;
     static long tick = 0;
-    //private String displayTime = "";
 
     public TRE(Launcher lf){
         this.lf = lf;
@@ -74,10 +74,6 @@ public class TRE extends JPanel implements Runnable {
                            if (this.gameObjects.get(i) == this.destroyableObjects.get(j) && this.destroyableObjects.get(j).isDestroyed()) {
                                for (int k = 0; k < this.collidableObjects.size(); k++) {
                                    if (this.gameObjects.get(i) == this.collidableObjects.get(k)) {
-                                       /*System.out.println("Removed Game Object: " + this.gameObjects.get(i));
-                                       System.out.println("Removed Collidable Object: " + this.collidableObjects.get(k));
-                                       System.out.println("Removed Destroyable Object: " + this.destroyableObjects.get(j));*/
-
                                        collidableObjects.remove(k);
                                        break;
                                    }
@@ -271,16 +267,6 @@ public class TRE extends JPanel implements Runnable {
 
         g2.setColor(Color.GRAY);
         g2.fillRect(0, 0, GameConstants.GAME_SCREEN_WIDTH, 65);
-
-        /*g2.setColor(Color.BLACK);
-        g2.fillRect(GameConstants.GAME_SCREEN_WIDTH / 2 - 34, 0, 70, 60);
-
-        if (getTick() % 100 == 0)
-            displayTime = String.valueOf(getTick());
-
-        g2.setColor(Color.WHITE);
-        g2.setFont(new Font("Impact", Font.PLAIN, 30));
-        g2.drawString(displayTime, GameConstants.GAME_SCREEN_WIDTH / 2 - 26, 38);*/
 
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Impact", Font.PLAIN, 30));
