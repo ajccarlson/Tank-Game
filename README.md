@@ -38,7 +38,8 @@ IntelliJ IDEA
 6. Select "Maven" and click "Finish"
 
 ## Steps to Build your Project:
-1. 
+1. Open IntelliJ
+2. Click on the green hammer icon near the top of the IDE labeled "Build Project"
  
 ## Steps to run your Project:
 1. Open Windows PowerShell or your preferred terminal
