@@ -98,15 +98,6 @@ public class TRE extends JPanel implements Runnable {
 
                this.repaint();   // redraw game
                Thread.sleep(1000 / 144); //sleep for a few milliseconds
-               //System.out.println(t1);
-               /*
-               * simulate an end game event
-               * we will do this with by ending the game when drawn 20000 frames have been drawn
-               */
-               if(this.getTick() > 20000 || t1.getLives() <= 0 || t2.getLives() <= 0){
-                   this.lf.setFrame("end");
-                   return;
-               }
             }
        } catch (InterruptedException ignored) {
            System.out.println(ignored);

@@ -2,7 +2,6 @@ tankrotationexample\game\TRE.class
 tankrotationexample\game\stationary\powerups\Powerup.class
 tankrotationexample\GameConstants.class
 tankrotationexample\game\moveable\Tank.class
-tankrotationexample\game\TankControl.class
 tankrotationexample\game\stationary\walls\Wall.class
 tankrotationexample\game\stationary\walls\UnBreakWall.class
 tankrotationexample\game\moveable\Bullet.class
