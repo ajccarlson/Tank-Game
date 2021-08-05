@@ -98,6 +98,10 @@ public class TRE extends JPanel implements Runnable {
 
                this.repaint();   // redraw game
                Thread.sleep(1000 / 144); //sleep for a few milliseconds
+               if(t1.getLives() <= 0 || t2.getLives() <= 0){
+                   this.lf.setFrame("end");
+                   return;
+               }
             }
        } catch (InterruptedException ignored) {
            System.out.println(ignored);
