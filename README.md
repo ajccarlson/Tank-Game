@@ -60,8 +60,8 @@ Alternatively
 |---------------|----------|----------|
 |  Forward      |     W    |    ↑     |
 |  Backward     |     S    |    ↓     |
-|  Rotate left  |     A    |    →     |
-|  Rotate Right |     D    |    ←     |
+|  Rotate left  |     A    |    ←     |
+|  Rotate Right |     D    |    →     |
 |  Shoot        |   Space  |  Enter   |
 
 <!-- you may add more controls if you need to. -->
