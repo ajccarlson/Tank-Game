@@ -6,8 +6,9 @@
 package tankrotationexample.game;
 
 
-import tankrotationexample.GameConstants;
+import tankrotationexample.dependencies.GameConstants;
 import tankrotationexample.Launcher;
+import tankrotationexample.dependencies.Resource;
 import tankrotationexample.game.moveable.Tank;
 import tankrotationexample.game.moveable.TankControl;
 import tankrotationexample.game.object_classes.DestroyableObject;

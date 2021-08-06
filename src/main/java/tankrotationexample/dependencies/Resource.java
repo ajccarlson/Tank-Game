@@ -1,4 +1,6 @@
-package tankrotationexample.game;
+package tankrotationexample.dependencies;
+
+import tankrotationexample.game.TRE;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

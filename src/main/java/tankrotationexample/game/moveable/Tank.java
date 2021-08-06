@@ -2,8 +2,8 @@ package tankrotationexample.game.moveable;
 
 
 
-import tankrotationexample.GameConstants;
-import tankrotationexample.game.Resource;
+import tankrotationexample.dependencies.GameConstants;
+import tankrotationexample.dependencies.Resource;
 import tankrotationexample.game.TRE;
 import tankrotationexample.game.object_classes.CollidableObject;
 import tankrotationexample.game.object_classes.DestroyableObject;

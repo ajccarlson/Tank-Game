@@ -1,13 +1,11 @@
 package tankrotationexample.menus;
 
 
-import tankrotationexample.GameConstants;
 import tankrotationexample.Launcher;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 

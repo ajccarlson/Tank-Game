@@ -1,4 +1,4 @@
-package tankrotationexample;
+package tankrotationexample.dependencies;
 
 public class GameConstants {
     public static final int GAME_WORLD_WIDTH = 2010;

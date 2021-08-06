@@ -1,6 +1,6 @@
 package tankrotationexample.game.moveable;
 
-import tankrotationexample.GameConstants;
+import tankrotationexample.dependencies.GameConstants;
 import tankrotationexample.game.object_classes.CollidableObject;
 
 import java.awt.*;

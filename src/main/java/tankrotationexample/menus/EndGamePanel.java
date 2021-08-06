@@ -1,6 +1,5 @@
 package tankrotationexample.menus;
 
-import tankrotationexample.GameConstants;
 import tankrotationexample.Launcher;
 
 import javax.imageio.ImageIO;

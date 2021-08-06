@@ -1,6 +1,7 @@
 package tankrotationexample;
 
 
+import tankrotationexample.dependencies.GameConstants;
 import tankrotationexample.game.TRE;
 import tankrotationexample.menus.EndGamePanel;
 import tankrotationexample.menus.StartMenuPanel;
